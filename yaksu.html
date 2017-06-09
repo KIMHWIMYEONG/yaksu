@@ -1,0 +1,118 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+ <title>약수의 달인이 되자</title>
+ <style>
+  #board {
+   background : url('background.jpg');
+   background-size: auto;
+   border: 1px solid black;
+   background-color: greenyellow;
+   height: 350px;
+   width: 650px;
+  }
+  .character {
+   background: url('5.jpg');
+   background-size: cover;
+   background-color: lightblue;
+   width: 200px;
+   height: 250px;
+   padding: 10px;
+   margin: 10px;
+   float: left;
+   display: none;
+  }
+  .thief {
+   background: url('6.jpg');
+   background-size: cover;
+  }
+  .hidden {
+   display: none;
+  }
+  .visible {
+   display: block;
+    }
+  .btn{
+      text-decoration: none;
+      font-size:rem;
+      color:white;
+      padding:10px 20px 10px 20px;
+      margin:20px;
+      display:inline-block;
+      border-radius: 10px;
+      transition:all 0.1s;
+      text-shadow: 0px -2px rgba(0, 0, 0, 0.44);
+      font-family: 'Lobster', cursive;
+    }
+    .btn:active{
+      transform: translateY(3px);
+    }
+    .btn.blue{
+      background-color: #1f75d9;
+      border-bottom:2px solid #165195;
+    }
+    .btn.blue:active{
+      border-bottom:2px solid #165195;
+    }
+    .btn.red{
+      background-color: #ff521e;
+      border-bottom:5px solid #c1370e;
+    }
+    .btn.red:active{
+      border-bottom:2px solid #c1370e;
+    }
+ </style>
+</head>
+<body>
+ <input type="button" value="약통의 달인되어 보기" onclick="startGame()";/>
+ <a class="btn blue" href="https://kimhwimyeong.github.io/wooam/">다음 단계로 가기</a>
+ <div style="margin: 5px; width: 59.5%; float: left; border: 6px solid red; padding: 23px; text-align: center; font-size: 20pt;">
+  <p>아래를 보고 12의 약수를 찾아라!</p>
+  <p>맞으면 +1<br/> 틀리면 -2<p>
+  <p>(한 문제 당, 제한 시간 3초)</p>
+  <p>2점 획득 시, 다음 단계로 넘어가세요!</p>
+ <div id="board">
+  <div class="character">1</div>
+  <div class="character">2</div>
+ </div>
+ <script>
+  function startGame() {
+   gameLoop();
+  }
+  var loops = 0;
+  var peopleVisible = false;
+  var gameScore = 0;
+  
+  function gameLoop() {
+   peopleVisible = !peopleVisible;
+   createCharacters();
+   loops++;
+   if(loops < 4) {
+    setTimeout(gameLoop, 3000);
+   }
+   else {
+    alert("점수는 " + gameScore);
+   }
+ }
+  function createCharacters() {	
+   var board = document.getElementById("board");
+   var classToSet = peopleVisible ? "character visible" : "character hidden";
+   for(var index = 0; index < 2; index ++) {
+	   board.children[index].className = classToSet;
+	   board.children[index].innerHTML = "";
+	   board.children[index].onclick = function() {
+		gameScore += -2;
+	   }
+   }
+   var randomNumber = Math.floor(Math.random() * 2) + 1;
+  	 board.children[randomNumber-1].innerHTML = "";
+	 board.children[randomNumber-1].onclick = function() {
+	    gameScore++;
+	 }
+   board.children[randomNumber-1].className = classToSet + " thief";
+  }
+ </script>
+</body>
+</html>
